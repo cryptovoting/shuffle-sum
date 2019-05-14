@@ -14,9 +14,9 @@ from typing import Dict
 
 from tqdm import tqdm
 
-from cryptovote.ballots import CandidateOrderBallot
-from cryptovote.damgard_jurik import PublicKey, keygen
-from cryptovote.utils import debug
+from shuffle_sum.ballots import CandidateOrderBallot
+from shuffle_sum.utils import debug
+from damgard_jurik import PublicKey, keygen
 
 
 def load_ballot_data(master_lookup_path: str,

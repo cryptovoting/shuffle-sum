@@ -15,7 +15,7 @@ from abc import ABC
 from typing import List
 from secrets import randbelow
 
-from cryptovote.damgard_jurik import EncryptedNumber, PrivateKeyRing, PublicKey
+from damgard_jurik import EncryptedNumber, PrivateKeyRing, PublicKey
 
 
 class Ballot(ABC):

@@ -1,18 +1,15 @@
 import setuptools
 
 setuptools.setup(
-    name="cryptovote",
+    name="shuffle-sum",
     version="0.0.1",
     author="Boucher, Govedič, Saowakon, Swanson",
-    description="Secure, verifiable electronic voting using the"
-                "Paillier cryptosystem",
-    long_description="Enables the implementation of elections where each vote "
-                     "is cryptographically secured using the Pallier "
-                     "cryptosystem and the results of elections are "
-                     "verifiable via a public bulletin board.",
-    url="https://github.com/swansonk14/crypto-voting",
+    description="Tallying of single transferable vote ballots using the Shuffle-Sum protocol.",
+    long_description="Tallying of single transferable vote ballots using the Shuffle-Sum protocol.",
+    url="https://github.com/cryptovoting/shuffle-sum",
     packages=setuptools.find_packages(),
     install_requires=[
+        'damgard-jurik',
         'gmpy2',
         'tqdm'
     ],
