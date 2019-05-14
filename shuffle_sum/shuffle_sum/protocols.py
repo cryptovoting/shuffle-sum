@@ -14,8 +14,8 @@ from damgard_jurik import EncryptedNumber, PrivateKeyRing, PublicKey
 from gmpy2 import mpz
 from tqdm import tqdm
 
-from shuffle_sum.ballots import CandidateEliminationBallot, CandidateOrderBallot, FirstPreferenceBallot,\
-    candidate_elimination_to_candidate_order, candidate_order_to_candidate_elimination,\
+from shuffle_sum.ballots import CandidateEliminationBallot, CandidateOrderBallot, FirstPreferenceBallot, \
+    candidate_elimination_to_candidate_order, candidate_order_to_candidate_elimination, \
     candidate_order_to_first_preference
 from shuffle_sum.utils import debug, lcm
 
@@ -54,11 +54,11 @@ def compute_first_preference_tallies(cob_ballots: List[CandidateOrderBallot],
 
 
 def reweight_and_convert_ballot(fpb: FirstPreferenceBallot,
-                               d_lcm: int,
-                               elected: Set[int],
-                               tallies: List[int],
-                               quota: int,
-                               zero: EncryptedNumber) -> CandidateOrderBallot:
+                                d_lcm: int,
+                                elected: Set[int],
+                                tallies: List[int],
+                                quota: int,
+                                zero: EncryptedNumber) -> CandidateOrderBallot:
     """ Reweight a single FirstPreferenceBallot and convert it to a CandidateOrderBallot."""
     new_weight = zero
 
@@ -180,16 +180,16 @@ def stv_tally(cob_ballots: List[CandidateOrderBallot],
               seats: int,
               stop_candidate: int,
               private_key_ring: PrivateKeyRing,
-              public_key: PublicKey) -> List[int]:
+              public_key: PublicKey, result: List[int]) -> List[int]:
     """ The main protocol of the ShuffleSum voting algorithm.
         Assumes there is at least one ballot.
-        Returns a list of elected candidates. """
+        Result should be an empty list, in which results are stored at the end of all rounds
+        Yields a tuple(candidates: List[int], tallies: List[int]) every round, and saves the result in results """
     if len(cob_ballots) == 0:
         raise ValueError('Need non-zero number of ballots')
 
-    c_rem = cob_ballots[0].candidates       # the remaining candidates
-    quota = mpz(len(cob_ballots)) // (seats + 1) + 1     # the (droop) quota required for election
-    result = []
+    c_rem = cob_ballots[0].candidates  # the remaining candidates
+    quota = mpz(len(cob_ballots)) // (seats + 1) + 1  # the (droop) quota required for election
     offset = 1 if stop_candidate in c_rem else 0
     round = 0
 
@@ -198,6 +198,8 @@ def stv_tally(cob_ballots: List[CandidateOrderBallot],
 
         fpb_ballots, tallies = compute_first_preference_tallies(cob_ballots, private_key_ring, public_key)
         elected = set()
+
+        yield cob_ballots[0].candidates, tallies
 
         # TODO: print tallies
 
@@ -242,4 +244,4 @@ def stv_tally(cob_ballots: List[CandidateOrderBallot],
         if c_rem[i] != stop_candidate:
             result.append(c_rem[i])
 
-    return result
+    return
