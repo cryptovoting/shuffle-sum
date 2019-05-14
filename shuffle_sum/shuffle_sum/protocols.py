@@ -10,13 +10,14 @@ from functools import partial
 from multiprocessing import Pool
 from typing import List, Set, Tuple
 
+from damgard_jurik import EncryptedNumber, PrivateKeyRing, PublicKey
+from gmpy2 import mpz
 from tqdm import tqdm
 
 from shuffle_sum.ballots import CandidateEliminationBallot, CandidateOrderBallot, FirstPreferenceBallot,\
     candidate_elimination_to_candidate_order, candidate_order_to_candidate_elimination,\
     candidate_order_to_first_preference
 from shuffle_sum.utils import debug, lcm
-from damgard_jurik import EncryptedNumber, PrivateKeyRing, PublicKey
 
 
 def compute_first_preference_tallies(cob_ballots: List[CandidateOrderBallot],
@@ -136,7 +137,7 @@ def eliminate_candidate_set(candidate_set: Set[int],
 
     # The number of remaining candidates (note that they not necessarily have numbers 1 through num_candidates)
     num_candidates = len(cob_ballots[0].candidates)
-    eliminated = [1 if candidate in candidate_set else 0 for candidate in cob_ballots[0].candidates]
+    eliminated = [mpz(1) if candidate in candidate_set else mpz(0) for candidate in cob_ballots[0].candidates]
     remaining_candidate_indices = {i for i in range(num_candidates) if eliminated[i] == 0}
 
     cob_to_ceb = partial(
@@ -187,7 +188,7 @@ def stv_tally(cob_ballots: List[CandidateOrderBallot],
         raise ValueError('Need non-zero number of ballots')
 
     c_rem = cob_ballots[0].candidates       # the remaining candidates
-    quota = len(cob_ballots) // (seats + 1) + 1     # the (droop) quota required for election
+    quota = mpz(len(cob_ballots)) // (seats + 1) + 1     # the (droop) quota required for election
     result = []
     offset = 1 if stop_candidate in c_rem else 0
     round = 0

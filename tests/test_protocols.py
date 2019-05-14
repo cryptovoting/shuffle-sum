@@ -8,9 +8,10 @@ Unit tests for protocols.
 """
 import unittest
 
-from cryptovote.ballots import CandidateOrderBallot, FirstPreferenceBallot
-from cryptovote.protocols import compute_first_preference_tallies, eliminate_candidate_set, reweight_votes
-from cryptovote.damgard_jurik import keygen
+from damgard_jurik import keygen
+
+from shuffle_sum.ballots import CandidateOrderBallot, FirstPreferenceBallot
+from shuffle_sum.protocols import compute_first_preference_tallies, eliminate_candidate_set, reweight_votes
 
 
 class TestEliminateCandidateSet(unittest.TestCase):

@@ -143,13 +143,12 @@ def candidate_order_to_candidate_elimination(ballot: CandidateOrderBallot,
     """ Converts a candidate order ballot into a candidate elimination ballot.
         Assumes eliminated is a list of either 0 or 1, *unencrypted*. """
     # Initialization
-    n = len(ballot.candidates)
     candidates = ballot.candidates
     preferences = ballot.preferences
     weight = ballot.weight
 
     # Step 1: Add an elimination-tag row to the ballot
-    eliminated = public_key.encrypt_list(eliminated,)
+    eliminated = public_key.encrypt_list(eliminated)
 
     # Step 2: Encrypt the candidate row
     candidates = public_key.encrypt_list(candidates)

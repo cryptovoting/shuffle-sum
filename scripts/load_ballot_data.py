@@ -12,11 +12,11 @@ from argparse import ArgumentParser
 from collections import defaultdict
 from typing import Dict
 
+from damgard_jurik import PublicKey, keygen
 from tqdm import tqdm
 
 from shuffle_sum.ballots import CandidateOrderBallot
 from shuffle_sum.utils import debug
-from damgard_jurik import PublicKey, keygen
 
 
 def load_ballot_data(master_lookup_path: str,

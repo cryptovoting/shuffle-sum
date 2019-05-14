@@ -1,10 +1,11 @@
 from argparse import ArgumentParser
 import time
 
-from cryptovote.damgard_jurik import keygen
-from cryptovote.protocols import stv_tally
+from damgard_jurik import keygen
 
-from scripts.load_ballot_data import load_ballot_data
+from load_ballot_data import load_ballot_data
+from shuffle_sum.protocols import stv_tally
+from shuffle_sum.utils import set_debug
 
 
 class MockPublicKey:
@@ -49,7 +50,11 @@ if __name__ == '__main__':
                         help='The number of PrivateKeyShares to generate.')
     parser.add_argument('--no_encryption', action='store_true', default=False,
                         help='Run the election without encryption')
+    parser.add_argument('--debug', action='store_true', default=False,
+                        help='Whether to print debug statements')
     args = parser.parse_args()
+
+    set_debug(args.debug)
 
     if args.no_encryption:
         public_key, private_key_ring = mock_keygen()

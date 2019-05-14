@@ -8,7 +8,8 @@ Runs all unit tests.
 """
 import unittest
 
-from cryptovote.utils import set_debug
+from shuffle_sum.utils import set_debug
+
 
 if __name__ == "__main__":
     set_debug(False)
