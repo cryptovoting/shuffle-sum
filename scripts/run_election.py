@@ -80,29 +80,13 @@ if __name__ == '__main__':
         print(f'Number of voters = {len(contest["ballots"]):,}')
 
         start = time.time()
-        result = []
-        intermediate = stv_tally(
+        result = stv_tally(
             cob_ballots=contest['ballots'],
             seats=args.seats,
             stop_candidate=contest['stop_candidate_id'],
             private_key_ring=private_key_ring,
-            public_key=public_key,
-            result=result
+            public_key=public_key
         )
-        i = 0
-        last_round = start
-        for candidates, tallies in intermediate:
-            i += 1
-            print(f'Round#{i}:')
-            print(f'Time = {time.time() - last_round}')
-            last_round = time.time()
-            for candidate in candidates:
-                print(contest['candidate_id_to_candidate_name'][candidate], end=" ")
-            print()
-            for tally in tallies:
-                print(tally, end=" ")
-            print("\n")
-
         print(f'Time = {time.time() - start}')
 
         print('Elected candidates')
